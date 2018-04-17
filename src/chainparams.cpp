@@ -85,8 +85,8 @@ public:
         consensus.BIP34Height = 227931; // FIX
         consensus.BIP34Hash = uint256S("0x000000000000024b89b42a942fe0d9fea3bb44ab7bd1b19115dd6a759c0808b8"); // FIX
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
-        consensus.nPowTargetTimespan = 2 * 2 * 60; // Reden: 1 hour, 2 blocks
-        consensus.nPowTargetSpacing = 2 * 60; // Reden: 2 minutes
+        consensus.nPowTargetTimespan = 10; // Reden: 1 hour, 2 blocks
+        consensus.nPowTargetSpacing = 1; // Reden: 2 minutes
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
@@ -119,9 +119,9 @@ public:
         nMaxTipAge = 1.5 * 60 * 60; // ~36 blocks behind -> 2 x fork detection time, was 24 * 60 * 60 in bitcoin
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1523764381, 1267432, 0x1e0ffff0, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1523764382, 243102, 0x1e0ffff0, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-       /*
+      /* 
 	 //////////////
         //////////////
                 // calculate Genesis Block
@@ -160,8 +160,9 @@ public:
                     std::cout << "   merklehash: "  << genesis.hashMerkleRoot.ToString().c_str() << "\n";
                     // Mainnet --- nonce: 296277 time: 1390095618 hash: 000000bdd771b14e5a031806292305e563956ce2584278de414d9965f6ab54b0
                 }
-                std::cout << std::string("Finished calculating Mainnet Genesis Block:\n");*/
-        assert(consensus.hashGenesisBlock == uint256S("00000f14dd00f47a5cc783f12c7e9d3b15e43e0f1c1ef2d512eb44fce797f37c"));
+                std::cout << std::string("Finished calculating Mainnet Genesis Block:\n");
+        */
+	assert(consensus.hashGenesisBlock == uint256S("00000b0db39ac2c2aaccff578ecd60eca36eae4f9ae527b7a47166bbaffba9a6"));
         assert(genesis.hashMerkleRoot == uint256S("434a400aa5632397845d9379b4d27d0befcb2649ac34c7ccbb015f74b1235888"));
 
 	//genesis = CreateGenesisBlock(1504653953, 0, 0x1d00ffff, 1, 50 * COIN);
@@ -171,11 +172,11 @@ public:
         //printf("%s\n", genesis.hashMerkleRoot.ToString().c_str());
         //assert(consensus.hashGenesisBlock == uint256S("a51381143c954ecdd9584989a01b37e673867a11309f592dbe6fc2ab92a160f2"));
         //assert(genesis.hashMerkleRoot == uint256S("a71192f5fff635cd240db0f34a5662de6ba73787f96d6bf29e527b2f79272737"));
-        vSeeds.push_back(CDNSSeedData("redencoin1", "seed1.redencoin.info"));
-        vSeeds.push_back(CDNSSeedData("redencoin2", "seed2.redencoin.info"));
-        vSeeds.push_back(CDNSSeedData("redencoin3", "seed3.redencoin.info"));
-        vSeeds.push_back(CDNSSeedData("redencoin4", "seed4.redencoin.info"));
-        vSeeds.push_back(CDNSSeedData("dnsseed", "dnsseed.redencoin.info"));
+        //vSeeds.push_back(CDNSSeedData("redencoin1", "seed1.redencoin.info"));
+        //vSeeds.push_back(CDNSSeedData("redencoin2", "seed2.redencoin.info"));
+        //vSeeds.push_back(CDNSSeedData("redencoin3", "seed3.redencoin.info"));
+        //vSeeds.push_back(CDNSSeedData("redencoin4", "seed4.redencoin.info"));
+        //vSeeds.push_back(CDNSSeedData("dnsseed", "dnsseed.redencoin.info"));
 
         // Reden addresses start with 'R'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
@@ -217,6 +218,14 @@ public:
                         //   (the tx=... number in the SetBestChain debug.log lines)
             2800        // * estimated number of transactions per day after checkpoint
         };*/
+        checkpointData = (CCheckpointData) {
+            boost::assign::map_list_of
+            ( 0, uint256S("00000b0db39ac2c2aaccff578ecd60eca36eae4f9ae527b7a47166bbaffba9a6")),
+            1523764382, // * UNIX timestamp of last checkpoint block
+            0,          // * total number of transactions between genesis and last checkpoint
+                        //   (the tx=... number in the SetBestChain debug.log lines)
+            500	        // * estimated number of transactions per day after checkpoint
+        };
     }
 };
 static CMainParams mainParams;
@@ -248,8 +257,8 @@ public:
         consensus.BIP34Height = 21111; // FIX
         consensus.BIP34Hash = uint256S("0x0000000023b3a96d3484e5abb3755c413e7d41500f8e2a5c3f0dd01299cd8ef8"); // FIX
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
-        consensus.nPowTargetTimespan = 60 * 60; // Reden: 1 hour
-        consensus.nPowTargetSpacing = 2 * 60; // Reden: 2 minutes
+        consensus.nPowTargetTimespan = 10; // Reden: 1 hour
+        consensus.nPowTargetSpacing = 5; // Reden: 2 minutes
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
@@ -294,7 +303,9 @@ public:
         // Testnet Reden BIP44 coin type is '1' (All coin's testnet default)
         base58Prefixes[EXT_COIN_TYPE]  = boost::assign::list_of(0x80)(0x00)(0x00)(0x01).convert_to_container<std::vector<unsigned char> >();
 
-        vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
+        //vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
+        vFixedSeeds.clear();
+        vSeeds.clear();
 
         fMiningRequiresPeers = false;
         fDefaultConsistencyChecks = false;
