@@ -85,8 +85,8 @@ public:
         consensus.BIP34Height = 227931; // FIX
         consensus.BIP34Hash = uint256S("0x000000000000024b89b42a942fe0d9fea3bb44ab7bd1b19115dd6a759c0808b8"); // FIX
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
-        consensus.nPowTargetTimespan = 10; // Reden: 1 hour, 2 blocks
-        consensus.nPowTargetSpacing = 1; // Reden: 2 minutes
+        consensus.nPowTargetTimespan = 2 * 60; // Reden: Every block
+        consensus.nPowTargetSpacing = 2 * 60; // Reden: 2 minutes
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
@@ -119,9 +119,9 @@ public:
         nMaxTipAge = 1.5 * 60 * 60; // ~36 blocks behind -> 2 x fork detection time, was 24 * 60 * 60 in bitcoin
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1523764382, 243102, 0x1e0ffff0, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1523764384, 243102, 0x1e0ffff0, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-      /* 
+     
 	 //////////////
         //////////////
                 // calculate Genesis Block
@@ -161,7 +161,7 @@ public:
                     // Mainnet --- nonce: 296277 time: 1390095618 hash: 000000bdd771b14e5a031806292305e563956ce2584278de414d9965f6ab54b0
                 }
                 std::cout << std::string("Finished calculating Mainnet Genesis Block:\n");
-        */
+        
 	assert(consensus.hashGenesisBlock == uint256S("00000b0db39ac2c2aaccff578ecd60eca36eae4f9ae527b7a47166bbaffba9a6"));
         assert(genesis.hashMerkleRoot == uint256S("434a400aa5632397845d9379b4d27d0befcb2649ac34c7ccbb015f74b1235888"));
 
