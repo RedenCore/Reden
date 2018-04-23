@@ -175,11 +175,11 @@ public:
         //vSeeds.push_back(CDNSSeedData("redencoin1", "seed1.redencoin.info"));
         //vSeeds.push_back(CDNSSeedData("redencoin2", "seed2.redencoin.info"));
         //vSeeds.push_back(CDNSSeedData("redencoin3", "seed3.redencoin.info"));
-        vSeeds.push_back(CDNSSeedData("beardseed2", "redenseed2.bunkens.be"));
-        vSeeds.push_back(CDNSSeedData("beardseed1", "redenseed1.bunkens.be"));
+        //vSeeds.push_back(CDNSSeedData("beardseed2", "redenseed2.bunkens.be"));
+        //vSeeds.push_back(CDNSSeedData("beardseed1", "redenseed1.bunkens.be"));
 	
-	//vSeeds.clear();
-	//vFixedSeeds.clear();
+	vSeeds.clear();
+	vFixedSeeds.clear();
         // Reden addresses start with 'R'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
         // Reden script addresses start with '7'
@@ -195,7 +195,7 @@ public:
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
 
-        fMiningRequiresPeers = false;
+        fMiningRequiresPeers = true;
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
