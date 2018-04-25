@@ -641,8 +641,14 @@ void ReadConfigFile(map<string, string>& mapSettingsRet,
         fprintf(configFile,"addnode=8.12.22.78:13058\n");
         fprintf(configFile,"addnode=108.160.138.215:13058\n");
         fprintf(configFile,"addnode=167.99.206.101\n");
-        fprintf(configFile,"addnode=159.65.152.125 \n");
-        fprintf(configFile,"addnode=104.236.81.19 \n");
+        fprintf(configFile,"addnode=159.65.152.125\n");
+        fprintf(configFile,"addnode=104.236.81.19\n");
+        fprintf(configFile,"addnode=167.88.163.202:13058\n");
+        fprintf(configFile,"addnode=167.88.163.204:13058\n");
+        fprintf(configFile,"addnode=35.178.15.243:13058\n");
+        fprintf(configFile,"addnode=155.94.174.81:13058\n");
+	fprintf(configFile,"onlynet=ipv4\n");
+
             fclose(configFile);
 	}
         return; // Nothing to read, so just return
