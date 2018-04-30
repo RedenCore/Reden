@@ -784,12 +784,12 @@ CAmount GetAccountBalance(const string& strAccount, int nMinDepth, const isminef
 }
 
 CAmount getCAmountBalance(const UniValue& params) {
-	if (!EnsureWalletIsAvailable(fHelp))
+	if (!EnsureWalletIsAvailable(false))
 		return NullUniValue;
 	LOCK2(cs_main, pwalletMain->cs_wallet);
 
 	if (params.size() == 0)
-		return  ValueFromAmount(pwalletMain->GetBalance());
+		return  pwalletMain->GetBalance();
 
 	int nMinDepth = 1;
 	if (params.size() > 1)
