@@ -102,7 +102,7 @@ UniValue masternodegenerate(const UniValue& params, bool fHelp) {
     UniValue accountBalance = getbalance(balanceParm, false);
     if(accountBalance.get_int64() < 5000) {
     	std::string balancestring(accountBalance.get_int64());
-    	throw std::runtime_error(sprintf("wallet balance is %d. At least 5000 redn is needed to generate a masternode"),accountBalance.get_int64());
+    	throw std::runtime_error(sprintf("wallet balance is %d. At least 5000 redn is needed to generate a masternode",accountBalance.get_int64()));
     }
     std::string label = params[0].get_str();
 	return generatemasternodecollateral(label);
