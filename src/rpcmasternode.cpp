@@ -103,12 +103,11 @@ UniValue masternodegenerate(const UniValue& params, bool fHelp) {
     if(accountBalance.get_int64() < 5000) {
     	throw std::runtime_error("At least 5000 redn is needed to generate a masternod");
     }
-    std::string label = params[0].get_str();
-	return generatemasternodecollateral(label);
+	return generatemasternodecollateral(params[0]);
 }
 
-UniValue generatemasternodecollateral(const std::string& label) {
-	UniValue newAddressParam(UniValue::VSTR, label);
+UniValue generatemasternodecollateral(const UniValue& label) {
+	UniValue newAddressParam(UniValue::VSTR, label.get_str());
 	// create new address for masternode
 	UniValue newAddress = getnewaddress(newAddressParam, false);
 	UniValue sendParams(UniValue::VOBJ);
