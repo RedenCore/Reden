@@ -98,7 +98,7 @@ UniValue masternodegenerate(const UniValue& params, bool fHelp) {
     if (fHelp) {
 
     }
-    UniValue balanceParm(UniValue::VOBJ);
+    UniValue balanceParm(UniValue::VARR);
     UniValue accountBalance = getbalance(balanceParm, false);
     if(accountBalance.get_int64() < 5000) {
     	throw std::runtime_error("At least 5000 redn is needed to generate a masternod");
