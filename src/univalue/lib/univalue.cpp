@@ -45,6 +45,7 @@ bool ParseInt32(const std::string& str, int32_t *out)
 
 bool ParseInt64(const std::string& str, int64_t *out)
 {
+	std::cout << str;
     if (!ParsePrechecks(str))
         return false;
     char *endp = NULL;

@@ -783,6 +783,51 @@ CAmount GetAccountBalance(const string& strAccount, int nMinDepth, const isminef
     return GetAccountBalance(walletdb, strAccount, nMinDepth, filter);
 }
 
+CAmount getCAmountBalance(const UniValue& params) {
+	LOCK2(cs_main, pwalletMain->cs_wallet);
+
+	if (params.size() == 0)
+		return  ValueFromAmount(pwalletMain->GetBalance());
+
+	int nMinDepth = 1;
+	if (params.size() > 1)
+		nMinDepth = params[1].get_int();
+	isminefilter filter = ISMINE_SPENDABLE;
+	if(params.size() > 2)
+		if(params[2].get_bool())
+			filter = filter | ISMINE_WATCH_ONLY;
+	CAmount nBalance = 0;
+	if (params[0].get_str() == "*") {
+		// Calculate total balance a different way from GetBalance()
+		// (GetBalance() sums up all unspent TxOuts)
+		// getbalance and "getbalance * 1 true" should return the same number
+		for (map<uint256, CWalletTx>::iterator it = pwalletMain->mapWallet.begin(); it != pwalletMain->mapWallet.end(); ++it)
+		{
+			const CWalletTx& wtx = (*it).second;
+			if (!CheckFinalTx(wtx) || wtx.GetBlocksToMaturity() > 0 || wtx.GetDepthInMainChain() < 0)
+				continue;
+
+			CAmount allFee;
+			string strSentAccount;
+			list<COutputEntry> listReceived;
+			list<COutputEntry> listSent;
+			wtx.GetAmounts(listReceived, listSent, allFee, strSentAccount, filter);
+			if (wtx.GetDepthInMainChain() >= nMinDepth)
+			{
+				BOOST_FOREACH(const COutputEntry& r, listReceived)
+					nBalance += r.amount;
+			}
+			BOOST_FOREACH(const COutputEntry& s, listSent)
+				nBalance -= s.amount;
+			nBalance -= allFee;
+		}
+	} else {
+		string strAccount = AccountFromValue(params[0]);
+		nBalance = GetAccountBalance(strAccount, nMinDepth, filter);
+	}
+	return nBalance;
+}
+
 
 UniValue getbalance(const UniValue& params, bool fHelp)
 {
@@ -810,52 +855,7 @@ UniValue getbalance(const UniValue& params, bool fHelp)
             "\nAs a json rpc call\n"
             + HelpExampleRpc("getbalance", "\"*\", 6")
         );
-
-    LOCK2(cs_main, pwalletMain->cs_wallet);
-
-    if (params.size() == 0)
-        return  ValueFromAmount(pwalletMain->GetBalance());
-
-    int nMinDepth = 1;
-    if (params.size() > 1)
-        nMinDepth = params[1].get_int();
-    isminefilter filter = ISMINE_SPENDABLE;
-    if(params.size() > 2)
-        if(params[2].get_bool())
-            filter = filter | ISMINE_WATCH_ONLY;
-
-    if (params[0].get_str() == "*") {
-        // Calculate total balance a different way from GetBalance()
-        // (GetBalance() sums up all unspent TxOuts)
-        // getbalance and "getbalance * 1 true" should return the same number
-        CAmount nBalance = 0;
-        for (map<uint256, CWalletTx>::iterator it = pwalletMain->mapWallet.begin(); it != pwalletMain->mapWallet.end(); ++it)
-        {
-            const CWalletTx& wtx = (*it).second;
-            if (!CheckFinalTx(wtx) || wtx.GetBlocksToMaturity() > 0 || wtx.GetDepthInMainChain() < 0)
-                continue;
-
-            CAmount allFee;
-            string strSentAccount;
-            list<COutputEntry> listReceived;
-            list<COutputEntry> listSent;
-            wtx.GetAmounts(listReceived, listSent, allFee, strSentAccount, filter);
-            if (wtx.GetDepthInMainChain() >= nMinDepth)
-            {
-                BOOST_FOREACH(const COutputEntry& r, listReceived)
-                    nBalance += r.amount;
-            }
-            BOOST_FOREACH(const COutputEntry& s, listSent)
-                nBalance -= s.amount;
-            nBalance -= allFee;
-        }
-        return  ValueFromAmount(nBalance);
-    }
-
-    string strAccount = AccountFromValue(params[0]);
-
-    CAmount nBalance = GetAccountBalance(strAccount, nMinDepth, filter);
-
+    CAmount nBalance = getCAmountBalance(params);
     return ValueFromAmount(nBalance);
 }
 

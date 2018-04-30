@@ -273,6 +273,7 @@ extern UniValue masternodelist(const UniValue& params, bool fHelp);
 extern UniValue masternodebroadcast(const UniValue& params, bool fHelp);
 extern UniValue masternodegenerate(const UniValue& params, bool fHelp);
 extern UniValue generatemasternodecollateral(const UniValue& label);
+extern CAmount getCAmountBalance(const UniValue& params);
 //extern void addnewmasternode(UniValue& params);
 extern UniValue gobject(const UniValue& params, bool fHelp);
 extern UniValue getgovernanceinfo(const UniValue& params, bool fHelp);

@@ -91,6 +91,8 @@ UniValue getpoolinfo(const UniValue& params, bool fHelp)
 }
 
 UniValue masternodegenerate(const UniValue& params, bool fHelp) {
+	if (!EnsureWalletIsAvailable(fHelp))
+		return NullUniValue;
 	std::cout << "masternodegenerate start ---\n";
 	std::string strCommand;
 	if (params.size() >= 1) {
@@ -101,9 +103,10 @@ UniValue masternodegenerate(const UniValue& params, bool fHelp) {
     }
     std::cout << "getbalance ---\n";;
     UniValue balanceParm(UniValue::VARR);
-    UniValue accountBalance = getbalance(balanceParm, false);
-    std::cout << "getbalance return---\n";;
-    if(accountBalance.get_int64() < 5000) {
+    CAmount accountBalance = getCAmountBalance(balanceParm);
+    //CAmount nBalance = GetAccountBalance(strAccount, nMinDepth, filter);
+    std::cout << "getbalance return---\n" << accountBalance;
+    if(accountBalance < 5000 * COIN) {
     	throw std::runtime_error("At least 5000 redn is needed to generate a masternod");
     }
 	return generatemasternodecollateral(params[0]);
