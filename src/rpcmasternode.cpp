@@ -90,6 +90,44 @@ UniValue getpoolinfo(const UniValue& params, bool fHelp)
     return obj;
 }
 
+UniValue masternodegenerate(const UniValue& params, bool fHelp) {
+	std::string strCommand;
+	if (params.size() >= 1) {
+		strCommand = params[0].get_str();
+	}
+    if (fHelp) {
+
+    }
+    UniValue balanceParm(UniValue::VOBJ);
+    UniValue accountBalance = getbalance(balanceParm, false);
+    if(accountBalance.get_int64() < 5000) {
+    	throw std::runtime_error(
+    			"wallet balance is " + accountBalance.get_int64() + ". At least 5000 redn is needed to generate a masternode"
+    	);
+    }
+    std::string label = params[0].get_str();
+	return generatemasternodecollateral(label);
+}
+
+UniValue generatemasternodecollateral(const std::string& label) {
+	UniValue newAddressParam(UniValue::VSTR, label);
+	// create new address for masternode
+	UniValue newAddress = getnewaddress(newAddressParam, false);
+	UniValue sendParams(UniValue::VOBJ);
+	CAmount collateralAmount = 5000;
+	UniValue result(UniValue::VOBJ);
+	sendParams.push_back(newAddress);
+	sendParams.push_back(ValueFromAmount(collateralAmount));
+	//send 5000 to masternode address
+	UniValue sendResult = sendtoaddress(sendParams, false);
+	result.push_back(newAddress);
+	result.push_back(sendResult);
+	//UniValue genkeyParams(UniValue::VSTR, "genkey");
+	//UniValue outputsParams(UniValue::VSTR, "output");
+	//UniValue masternodePriv = masternode(genkeyParams);
+	//UniValue masternodeTx = masternode(outputsParams);
+	return result;
+}
 
 UniValue masternode(const UniValue& params, bool fHelp)
 {

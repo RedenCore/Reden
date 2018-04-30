@@ -346,6 +346,7 @@ static const CRPCCommand vRPCCommands[] =
 
     /* Reden features */
     { "reden",               "masternode",             &masternode,             true  },
+	{ "reden",               "masternodegenerate",             &masternodegenerate,             true  },
     { "reden",               "masternodelist",         &masternodelist,         true  },
     { "reden",               "masternodebroadcast",    &masternodebroadcast,    true  },
     { "reden",               "gobject",                &gobject,                true  },
