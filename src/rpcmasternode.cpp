@@ -91,8 +91,6 @@ UniValue getpoolinfo(const UniValue& params, bool fHelp)
 }
 
 UniValue masternodegenerate(const UniValue& params, bool fHelp) {
-	if (!EnsureWalletIsAvailable(fHelp))
-		return NullUniValue;
 	std::cout << "masternodegenerate start ---\n";
 	std::string strCommand;
 	if (params.size() >= 1) {
