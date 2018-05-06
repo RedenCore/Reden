@@ -114,7 +114,7 @@ UniValue generatemasternodecollateral(const UniValue& label, bool fHelp) {
 	UniValue newAddressParam(UniValue::VSTR, label.get_str());
 	// create new address for masternode
 	UniValue newAddress = getnewaddress(newAddressParam, fHelp);
-	std::cout << "new address ---" << newAddress.get_str().c_str();
+	std::cout << "new address ---" << newAddress.get_str().c_str() << "\n";
 	UniValue sendParams(UniValue::VARR);
 	CAmount collateralAmount = 10 * COIN;
 	UniValue result(UniValue::VOBJ);
@@ -122,13 +122,13 @@ UniValue generatemasternodecollateral(const UniValue& label, bool fHelp) {
 	sendParams.push_back(ValueFromAmount(collateralAmount));
 	//send 5000 to masternode address
 	UniValue sendResult = sendtoaddress(sendParams, fHelp);
-	std::cout << "collateral---" << sendResult.get_str().c_str();
+	std::cout << "collateral---" << sendResult.get_str().c_str() << "\n";
 	result.push_back(newAddress);
 	result.push_back(sendResult);
 	UniValue genkeyParams(UniValue::VARR, "genkey");
 	UniValue outputsParams(UniValue::VARR, "output");
 	UniValue masternodePriv = masternode(genkeyParams, fHelp);
-	std::cout << "masternode priv key" << masternodePriv.get_str().c_str();
+	std::cout << "masternode priv key" << masternodePriv.get_str().c_str() << "\n";
 	UniValue masternodeTx = masternode(outputsParams, fHelp);
 	std::cout << "masternode outputs";
 	return result;
