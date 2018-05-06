@@ -99,34 +99,38 @@ UniValue masternodegenerate(const UniValue& params, bool fHelp) {
     if (fHelp) {
 
     }
-    std::cout << "getbalance ---\n";;
+    std::cout << "getbalance ---\n";
     UniValue balanceParm(UniValue::VARR);
     CAmount accountBalance = getCAmountBalance(balanceParm);
     //CAmount nBalance = GetAccountBalance(strAccount, nMinDepth, filter);
     std::cout << "getbalance return---\n" << accountBalance;
-    if(accountBalance < 5000 * COIN) {
+    if(accountBalance < 10 * COIN) {
     	throw std::runtime_error("At least 5000 redn is needed to generate a masternod");
     }
-	return generatemasternodecollateral(params[0]);
+	return generatemasternodecollateral(params[0], fHelp);
 }
 
-UniValue generatemasternodecollateral(const UniValue& label) {
+UniValue generatemasternodecollateral(const UniValue& label, bool fHelp) {
 	UniValue newAddressParam(UniValue::VSTR, label.get_str());
 	// create new address for masternode
-	UniValue newAddress = getnewaddress(newAddressParam, false);
+	UniValue newAddress = getnewaddress(newAddressParam, fHelp);
+	std::cout << "new address ---" << newAddress.get_str().c_str();
 	UniValue sendParams(UniValue::VOBJ);
-	CAmount collateralAmount = 5000;
+	CAmount collateralAmount = 10 * COIN;
 	UniValue result(UniValue::VOBJ);
 	sendParams.push_back(newAddress);
 	sendParams.push_back(ValueFromAmount(collateralAmount));
 	//send 5000 to masternode address
-	UniValue sendResult = sendtoaddress(sendParams, false);
+	UniValue sendResult = sendtoaddress(sendParams, fHelp);
+	std::cout << "collateral---" << sendResult.get_str().c_str();
 	result.push_back(newAddress);
 	result.push_back(sendResult);
-	//UniValue genkeyParams(UniValue::VSTR, "genkey");
-	//UniValue outputsParams(UniValue::VSTR, "output");
-	//UniValue masternodePriv = masternode(genkeyParams);
-	//UniValue masternodeTx = masternode(outputsParams);
+	UniValue genkeyParams(UniValue::VSTR, "genkey");
+	UniValue outputsParams(UniValue::VSTR, "output");
+	UniValue masternodePriv = masternode(genkeyParams, fHelp);
+	std::cout << "masternode priv key" << masternodePriv.get_str().c_str();
+	UniValue masternodeTx = masternode(outputsParams, fHelp);
+	std::cout << "masternode outputs" << masternodeTx;
 	return result;
 }
 
