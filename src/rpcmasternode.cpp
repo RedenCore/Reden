@@ -111,7 +111,8 @@ UniValue masternodegenerate(const UniValue& params, bool fHelp) {
 }
 
 UniValue generatemasternodecollateral(const UniValue& label, bool fHelp) {
-	UniValue newAddressParam(UniValue::VSTR, label.get_str());
+	UniValue newAddressParam(UniValue::VARR);
+	newAddressParam.push_back(label);
 	// create new address for masternode
 	UniValue newAddress = getnewaddress(newAddressParam, fHelp);
 	std::cout << "new address ---" << newAddress.get_str().c_str() << "\n";
@@ -125,8 +126,10 @@ UniValue generatemasternodecollateral(const UniValue& label, bool fHelp) {
 	std::cout << "collateral---" << sendResult.get_str().c_str() << "\n";
 	result.push_back(newAddress);
 	result.push_back(sendResult);
-	UniValue genkeyParams(UniValue::VARR, "genkey");
-	UniValue outputsParams(UniValue::VARR, "output");
+	UniValue genkeyParams(UniValue::VARR);
+	genkeyParams.push_back("genkey");
+	UniValue outputsParams(UniValue::VARR);
+	outputsParams.push_back("outputs");
 	UniValue masternodePriv = masternode(genkeyParams, fHelp);
 	std::cout << "masternode priv key" << masternodePriv.get_str().c_str() << "\n";
 	UniValue masternodeTx = masternode(outputsParams, fHelp);
