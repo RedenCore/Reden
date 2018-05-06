@@ -130,7 +130,7 @@ UniValue generatemasternodecollateral(const UniValue& label, bool fHelp) {
 	UniValue masternodePriv = masternode(genkeyParams, fHelp);
 	std::cout << "masternode priv key" << masternodePriv.get_str().c_str();
 	UniValue masternodeTx = masternode(outputsParams, fHelp);
-	std::cout << "masternode outputs" << masternodeTx;
+	std::cout << "masternode outputs";
 	return result;
 }
 
