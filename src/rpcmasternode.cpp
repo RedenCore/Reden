@@ -114,9 +114,8 @@ UniValue generatemasternodecollateral(const UniValue& label, bool fHelp) {
 	UniValue newAddressParam(UniValue::VSTR, label.get_str());
 	// create new address for masternode
 	UniValue newAddress = getnewaddress(newAddressParam, fHelp);
-
 	std::cout << "new address ---" << newAddress.get_str().c_str();
-	UniValue sendParams(UniValue::VOBJ);
+	UniValue sendParams(UniValue::VARR);
 	CAmount collateralAmount = 10 * COIN;
 	UniValue result(UniValue::VOBJ);
 	sendParams.push_back(newAddress);
