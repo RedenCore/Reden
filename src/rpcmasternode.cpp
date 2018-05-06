@@ -119,7 +119,7 @@ UniValue generatemasternodecollateral(const UniValue& label, bool fHelp) {
 	UniValue sendParams(UniValue::VARR);
 	CAmount collateralAmount = 10 * COIN;
 	UniValue result(UniValue::VOBJ);
-	sendParams.push_back(newAddress));
+	sendParams.push_back(newAddress);
 	sendParams.push_back(ValueFromAmount(collateralAmount));
 	//send 5000 to masternode address
 	UniValue sendResult = sendtoaddress(sendParams, fHelp);
