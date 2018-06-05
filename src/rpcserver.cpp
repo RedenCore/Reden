@@ -404,6 +404,11 @@ static const CRPCCommand vRPCCommands[] =
     { "wallet",             "walletpassphrasechange", &walletpassphrasechange, true  },
     { "wallet",             "walletpassphrase",       &walletpassphrase,       true  },
 #endif // ENABLE_WALLET
+#ifdef ENABLE_WALLET
+    { "Reden Data API",    "createandsavedata",     &createandsavedata,     false },
+	{ "Reden Data API",    "updatedata",     &updatedata,     false },
+	{ "Reden Data API",    "searchdata",     &searchdata,     false },
+#endif
 };
 
 CRPCTable::CRPCTable()

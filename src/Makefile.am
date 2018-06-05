@@ -224,6 +224,7 @@ libbitcoin_server_a_SOURCES = \
   rpcgovernance.cpp \
   rpcmining.cpp \
   rpcmisc.cpp \
+  rpcdata.cpp \
   rpcnet.cpp \
   rpcrawtransaction.cpp \
   rpcserver.cpp \

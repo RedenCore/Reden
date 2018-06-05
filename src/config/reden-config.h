@@ -8,7 +8,6 @@
 /* Define if building universal (internal helper macro) */
 /* #undef AC_APPLE_UNIVERSAL_BUILD */
 
-
 /* Version Build */
 #define CLIENT_VERSION_BUILD 1
 
@@ -182,11 +181,11 @@
 #define HAVE_GETADDRINFO_A 1
 
 /* Define this symbol if the BSD getentropy system call is available */
-/* #undef HAVE_GETENTROPY */
+#define HAVE_GETENTROPY 1
 
 /* Define this symbol if the BSD getentropy system call is available with
    sys/random.h */
-/* #undef HAVE_GETENTROPY_RAND */
+#define HAVE_GETENTROPY_RAND 1
 
 /* Define this symbol if you have inet_pton */
 #define HAVE_INET_PTON 1

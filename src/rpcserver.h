@@ -296,6 +296,11 @@ extern UniValue invalidateblock(const UniValue& params, bool fHelp);
 extern UniValue reconsiderblock(const UniValue& params, bool fHelp);
 extern UniValue getspentinfo(const UniValue& params, bool fHelp);
 
+//Call for saving data
+extern UniValue createandsavedata(const UniValue& params, bool fHelp);
+extern UniValue updatedata(const UniValue& params, bool fHelp);
+extern UniValue searchdata(const UniValue& params, bool fHelp);
+
 bool StartRPC();
 void InterruptRPC();
 void StopRPC();
