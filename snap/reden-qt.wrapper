@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+
+HOMEDIR=$(getent passwd $USER | cut -d ':' -f 6)
+DATADIR=$HOMEDIR/reden
+
+mkdir -p $DATADIR
+$SNAP/bin/reden-qt -datadir=$DATADIR "$@"

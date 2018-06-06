@@ -25,13 +25,14 @@ apps:
       - network
 
   reden-qt:
-    command: desktop-launch $SNAP/bin/reden-qt -datadir=$SNAP_USER_COMMON
+    command: desktop-launch $SNAP/bin/reden-qt.wrapper
     desktop: reden-qt.desktop
     plugs:
       - desktop
-      - x11
+      - home
       - network
       - network-bind
+      - x11
 
 parts:
   ppa:
@@ -51,6 +52,7 @@ parts:
     configflags: [--disable-tests, --disable-bench]
     override-build: |
       snapcraftctl build
+      cp /root/build_reden/snap/reden-qt.wrapper $SNAPCRAFT_PART_INSTALL/bin/reden-qt.wrapper
       cp contrib/debian/reden-qt.desktop.desktop $SNAPCRAFT_PART_INSTALL/reden-qt.desktop
       sed -i -e 's/Icon=reden128/Icon=${SNAP}\/meta\/gui\/reden-qt.png/; s/reden-qt.desktop/Reden Core/' $SNAPCRAFT_PART_INSTALL/reden-qt.desktop
     build-packages:
