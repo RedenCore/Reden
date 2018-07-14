@@ -41,7 +41,7 @@ NOTE: Building with Qt4 is still supported, however, could result in a broken UI
 
 1. Clone the GitHub tree to get the source code and go into the directory.
 
-        git clone https://github.com/redencoin/redencoin.git
+        git clone https://github.com/RedenCore/Reden
         cd reden
 
 2.  Build Reden Core:
