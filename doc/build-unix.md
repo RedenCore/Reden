@@ -100,7 +100,7 @@ Dependencies for the GUI: Ubuntu & Debian
 
 If you want to build Reden-Qt, make sure that the required packages for Qt development
 are installed. Either Qt 5 or Qt 4 are necessary to build the GUI.
-If both Qt 4 and Qt 5 are installed, Qt 5 will be used. Pass `--with-gui=qt4` to configure to choose Qt4.
+If both Qt 4 and Qt 5 are installed, Qt 5 wilbl be used. Pass `--with-gui=qt4` to configure to choose Qt4.
 To build without GUI pass `--without-gui`.
 
 To build with Qt 5 (recommended) you need the following:
@@ -117,6 +117,37 @@ libqrencode (optional) can be installed with:
 
 Once these are installed, they will be found by configure and a reden-qt executable will be
 built by default.
+
+Dependency Build Instructions: Centos 7.3
+----------------------------------------------
+Build requirements:
+Epel Repository is needed for a few libraries.
+
+    sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
+Build tool dependencies installed with:
+
+    sudo yum install autoconf automake gcc-c++ libdb4-cxx libdb4-cxx-devel boost-devel openssl-devel libtool libevent-devel
+
+Build OpenSSL with EC and install:
+cd /usr/src
+sudo yum install wget
+wget https://www.openssl.org/source/openssl-1.1.0i.tar.gz
+tar zxvf openssl-1.1.0i.tar.gz
+cd openssl-1.1.0i
+export CFLAGS="-fPIC"
+./config --prefix=/opt/openssl shared enable-ec enable-ecdh enable-ecdsa
+make all
+make install
+
+
+Optional:
+
+    sudo yum install miniupnpc-devel (see --with-miniupnpc and --enable-upnp-default)
+
+ZMQ dependencies:
+
+    sudo yum install zeromq-devel (provides ZMQ API 4.x)
 
 Notes
 -----
